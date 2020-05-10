@@ -3,22 +3,31 @@ using System.IO;
 using System.Linq;
 using Dung.Ninja;
 using Dung.Ninja.Objects;
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
 
 namespace Dung.Lib
 {
     public abstract class Project : IDependency
     {
-        public Project(string buildDir)
+        protected Project(string rootDir)
         {
-            BuildDir = buildDir;
+            BuildDir = Path.Join(rootDir, "build");
             if (!Directory.Exists(BuildDir)) Directory.CreateDirectory(BuildDir);
+            string projectFile = Path.Join(rootDir, "project.yml");
+            if (!File.Exists(projectFile)) return;
+            var deserializer = new DeserializerBuilder()
+                .WithNamingConvention(UnderscoredNamingConvention.Instance)
+                .Build();
+            Configuration = deserializer.Deserialize<Configuration.Configuration>(File.OpenText(projectFile));
         }
 
-        public abstract IDependency Entrypoint { get; }
-
-        public string BuildDir { get; }
+        protected Configuration.Configuration? Configuration { get; }
+        protected abstract IDependency Entrypoint { get; }
+        protected string BuildDir { get; }
 
         public abstract string Name { get; }
+
 
         public IEnumerable<IDependency>? Dependencies => new[]
         {
