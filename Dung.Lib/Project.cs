@@ -4,8 +4,6 @@ using System.Linq;
 using Dung.Ninja;
 using Dung.Ninja.Objects;
 using YamlDotNet.RepresentationModel;
-using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
 
 namespace Dung.Lib
 {
@@ -20,9 +18,6 @@ namespace Dung.Lib
             Name = Path.GetFileName(rootDir);
 
             if (!File.Exists(projectFile)) return;
-            var deserializer = new DeserializerBuilder()
-                .WithNamingConvention(UnderscoredNamingConvention.Instance)
-                .Build();
             using var reader = File.OpenText(projectFile);
             var yaml = new YamlStream();
             yaml.Load(reader);
