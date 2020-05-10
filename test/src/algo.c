@@ -132,7 +132,7 @@ bool instance_improve_2opt(instance_t *self, tour_t *tour) {
 
 void instance_tour_2opt(instance_t *self, tour_t *tour, const bool use_ppv) {
 	char filename[MAXBUF];
-#ifdef WITH_CAIRO
+#ifdef HAVE_CAIRO
 	unsigned int i = 1;
 #endif
 	if (use_ppv)
@@ -145,7 +145,7 @@ void instance_tour_2opt(instance_t *self, tour_t *tour, const bool use_ppv) {
 	else
 		strncat(tour->method, " (w/ RW)", TOUR_NAME_MAX_SIZE);
 	while (instance_improve_2opt(self, tour)) {
-#ifdef WITH_CAIRO
+#ifdef HAVE_CAIRO
 		if (verbose_mode) {
 			snprintf(filename, MAXBUF, "2opt_%04d.png", i++);
 			draw_instance_tour(self, tour, filename);
@@ -254,7 +254,7 @@ void instance_tour_genetic(instance_t *self, tour_t *tour) {
 		}
 
 		tour_sort(population, ga_params.population);
-#ifdef WITH_CAIRO
+#ifdef HAVE_CAIRO
 		if (verbose_mode) {
 			char filename[MAXBUF];
 			snprintf(filename, MAXBUF, "ga_e%04d.png", epoch);

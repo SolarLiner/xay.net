@@ -1,6 +1,6 @@
 #include "instance.h"
 #include "utils.h"
-#ifdef WITH_CAIRO
+#ifdef HAVE_CAIRO
 #include "algo.h"
 #include "draw.h"
 #endif

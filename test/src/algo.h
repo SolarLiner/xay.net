@@ -5,7 +5,7 @@
 #ifndef L2_INFO_S3_ALGO_H
 #define L2_INFO_S3_ALGO_H
 
-#ifdef WITH_CAIRO
+#ifdef HAVE_CAIRO
 #include "draw.h"
 #endif
 #include "instance.h"

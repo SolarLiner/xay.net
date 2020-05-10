@@ -1,6 +1,6 @@
 #include "algo.h"
 #include "cli.h"
-#ifdef WITH_CAIRO
+#ifdef HAVE_CAIRO
 #include "draw.h"
 #endif
 #include "instance.h"
@@ -41,7 +41,7 @@ int main(int argc, char **argv) {
 			fprintf(csvfp, "\n");
 			tour_dump_csv(csvfp, &worst);
 		}
-#ifdef WITH_CAIRO
+#ifdef HAVE_CAIRO
 		if (args[BAL_DRAW]) {
 			draw_instance_tour(&inst, &best, "bf_best.png");
 			draw_instance_tour(&inst, &worst, "bf_worst.png");
@@ -66,7 +66,7 @@ int main(int argc, char **argv) {
 			tour_dump_csv(csvfp, &result);
 		}
 
-#ifdef WITH_CAIRO
+#ifdef HAVE_CAIRO
 		if (args[BAL_DRAW])
 			draw_instance_tour(&inst, &result, "ppv.png");
 #endif
@@ -89,7 +89,7 @@ int main(int argc, char **argv) {
 			fprintf(csvfp, "\n");
 			tour_dump_csv(csvfp, &result);
 		}
-#ifdef WITH_CAIRO
+#ifdef HAVE_CAIRO
 		if (args[BAL_DRAW])
 			draw_instance_tour(&inst, &result, "rw.png");
 #endif
@@ -114,7 +114,7 @@ int main(int argc, char **argv) {
 				fprintf(csvfp, "\n");
 				tour_dump_csv(csvfp, &result);
 			}
-#ifdef WITH_CAIRO
+#ifdef HAVE_CAIRO
 			if (args[BAL_DRAW])
 				draw_instance_tour(&inst, &result, "2opt.png");
 #endif
@@ -140,7 +140,7 @@ int main(int argc, char **argv) {
 
 		tour_dump(&result);
 
-#ifdef WITH_CAIRO
+#ifdef HAVE_CAIRO
 		if (args[BAL_DRAW])
 			draw_instance_tour(&inst, &result, "ga.png");
 #endif

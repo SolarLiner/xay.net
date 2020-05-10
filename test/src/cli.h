@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#ifdef WITH_CAIRO
+#ifdef HAVE_CAIRO
 #define NB_BALISES 13 // nombre max de balises de la ligne de commande
 // liste des codes pour les balises
 #else
@@ -24,7 +24,7 @@
 #define BAL_GA 9	// -ga
 #define BAL_H 10	//-h
 #define BAL_ZERO 11 // -nz no zéro
-#ifdef WITH_CAIRO
+#ifdef HAVE_CAIRO
 #define BAL_DRAW 12
 #endif
 

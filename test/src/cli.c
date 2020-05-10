@@ -25,7 +25,7 @@ void get_args(int argc, char **argv, bool tab_arg[NB_BALISES]) {
 		} else if (streq(argv[i], "-nz")) {
 			no_zero = true;
 		}
-#ifdef WITH_CAIRO
+#ifdef HAVE_CAIRO
 		else if (streq(argv[i], "-draw")) {
 			tab_arg[BAL_DRAW] = true;
 		}
