@@ -28,7 +28,7 @@ namespace Dung.Lib.Lang.C
 
         Rule IBuildable.Rule => new Rule
         {
-            Command = "gcc -MMD -MT $out -MF $out.d -c $in -o $out",
+            Command = $"{EnvironmentHelpers.GetCompiler()} -MMD -MT $out -MF $out.d $cflags -c $in -o $out",
             Name = "cc",
             Description = "Compiling C file $in",
             Depfile = "$out.d"

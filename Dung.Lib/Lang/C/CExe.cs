@@ -23,6 +23,10 @@ namespace Dung.Lib.Lang.C
             return Dependencies.Concat(Dependencies.SelectMany(d => d.FlattenDependencies()));
         }
 
-        public Rule Rule => new Rule {Name = "link", Command = "gcc $in -o $out", Description = "Linking to $out"};
+        public Rule Rule => new Rule
+        {
+            Name = "link", Command = $"{EnvironmentHelpers.GetCompiler()} $clibs $in -o $out",
+            Description = "Linking to $out"
+        };
     }
 }

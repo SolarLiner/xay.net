@@ -7,5 +7,6 @@ namespace Dung.Lib.Configuration
         public string? Name { get; set; }
         public List<string>? Include { get; set; }
         public List<string>? Exclude { get; set; }
+        public List<string>? SystemDependencies { get; set; }
     }
 }
