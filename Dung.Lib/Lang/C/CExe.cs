@@ -25,7 +25,7 @@ namespace Dung.Lib.Lang.C
 
         public Rule Rule => new Rule
         {
-            Name = "link", Command = $"{EnvironmentHelpers.GetCompiler()} $clibs $in -o $out",
+            Name = "link", Command = $"{EnvironmentHelpers.GetCompiler()} $in $clibs -o $out",
             Description = "Linking to $out"
         };
     }
