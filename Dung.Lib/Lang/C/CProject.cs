@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Serilog;
 using YamlDotNet.RepresentationModel;
 
 namespace Dung.Lib.Lang.C
@@ -59,7 +60,9 @@ namespace Dung.Lib.Lang.C
                 if (node.Children.ContainsKey(nodeExclude))
                     if (node.Children[nodeExclude] is YamlSequenceNode seq)
                     {
-                        var excluded = seq.OfType<YamlScalarNode>().Select(s => Path.Join(sourceDir, s.ToString()))
+                        var excluded = seq
+                            .OfType<YamlScalarNode>()
+                            .Select(s => Path.Join(sourceDir, s.ToString()))
                             .ToHashSet();
                         objects = objects.Where(o => !excluded.Contains(o.SourceFile)).ToList();
                     }
@@ -68,7 +71,9 @@ namespace Dung.Lib.Lang.C
                 if (node.Children.ContainsKey(nodeInclude))
                     if (node.Children[nodeInclude] is YamlSequenceNode seq)
                     {
-                        var included = seq.OfType<YamlScalarNode>().Select(s => Path.Join(sourceDir, s.ToString()))
+                        var included = seq
+                            .OfType<YamlScalarNode>()
+                            .Select(s => Path.Join(sourceDir, s.ToString()))
                             .ToHashSet();
                         objects = objects.Where(o => included.Contains(o.SourceFile)).ToList();
                     }
@@ -108,6 +113,7 @@ namespace Dung.Lib.Lang.C
 
             if (!Variables.ContainsKey("cflags")) Variables.Add("cflags", "");
             if (!Variables.ContainsKey("clibs")) Variables.Add("clibs", "");
+            Log.Information($"Found sources: {string.Join("\n\t", objects.Select(o => o.SourceFile))}");
             Entrypoint = new CExe(Name, BuildDir, objects);
         }
 

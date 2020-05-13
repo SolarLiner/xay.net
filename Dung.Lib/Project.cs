@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using Dung.Ninja;
 using Dung.Ninja.Objects;
+using Serilog;
 using YamlDotNet.RepresentationModel;
 
 namespace Dung.Lib
@@ -12,12 +13,14 @@ namespace Dung.Lib
         protected Project(string rootDir)
         {
             BuildDir = Path.Join(rootDir, "build");
+            Log.Information($"Project dir: {rootDir} - Build dir: {BuildDir}");
             if (!Directory.Exists(BuildDir)) Directory.CreateDirectory(BuildDir);
             string projectFile = Path.Join(rootDir, "project.yml");
             Variables = new Dictionary<string, string>();
             Name = Path.GetFileName(rootDir);
 
             if (!File.Exists(projectFile)) return;
+            Log.Information($"Found configuration file at {projectFile}");
             using var reader = File.OpenText(projectFile);
             var yaml = new YamlStream();
             yaml.Load(reader);

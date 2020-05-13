@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using Serilog;
 
 namespace Dung.Lib.Lang.C
 {
@@ -16,6 +17,7 @@ namespace Dung.Lib.Lang.C
         public PkgConfig(string dependency)
         {
             _pkgConfig = FindPkgConfig();
+            Log.Information($"Found pkg-config at {_pkgConfig.FileName}");
             Dependency = dependency;
         }
 
