@@ -4,10 +4,12 @@
         <OutputType>Exe</OutputType>
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <Nullable>enable</Nullable>
+        <Configurations>Debug;Release</Configurations>
+        <Platforms>AnyCPU</Platforms>
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Dung.Lib\Dung.Lib.csproj"/>
+        <ProjectReference Include="..\Dung.Lib\Dung.Lib.csproj" />
     </ItemGroup>
 
 </Project>
