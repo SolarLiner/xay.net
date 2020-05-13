@@ -9,7 +9,7 @@ namespace Dung.Lib.Lang.C
 {
     public class CProject : Project
     {
-        public CProject(string root) : base(root)
+        public CProject(string root, string buildDir) : base(root, buildDir)
         {
             var sourceDir = Path.Join(root, "src");
 
@@ -122,9 +122,10 @@ namespace Dung.Lib.Lang.C
         public static CProject? DetectProject(string root)
         {
             var sourceDir = Path.Join(root, "src");
+            var buildDir = Path.Join(root, "build");
             if (!Directory.Exists(sourceDir) || !Directory.EnumerateFiles(sourceDir).Any(f => f.EndsWith(".c")))
                 return null;
-            return new CProject(root);
+            return new CProject(root, buildDir);
         }
     }
 }

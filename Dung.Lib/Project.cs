@@ -10,9 +10,9 @@ namespace Dung.Lib
 {
     public abstract class Project : IDependency
     {
-        protected Project(string rootDir)
+        protected Project(string rootDir, string buildDir)
         {
-            BuildDir = Path.Join(rootDir, "build");
+            BuildDir = buildDir;
             Log.Information($"Project dir: {rootDir} - Build dir: {BuildDir}");
             if (!Directory.Exists(BuildDir)) Directory.CreateDirectory(BuildDir);
             string projectFile = Path.Join(rootDir, "project.yml");
