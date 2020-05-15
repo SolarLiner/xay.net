@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.ExceptionServices;
@@ -13,7 +14,7 @@ namespace Dung.CLI
     {
         private static void Main(string[] args)
         {
-            SetupLogging();
+            string tempLogFile = SetupLogging();
             string cwd = Environment.CurrentDirectory;
             Project? project = PluginHost<IBuildPlugin>.LoadPlugins()
                 .Select(plugin => plugin.DetectProject(cwd, "src", "build"))
@@ -22,13 +23,16 @@ namespace Dung.CLI
             {
                 Log.Error($"Couldn't detect a project in the directory {cwd}.");
                 Log.Error("Make sure you are in the right directory to call this command.");
+                FinalizeLog();
+                Console.WriteLine($"Log file written to {tempLogFile}");
             }
             else
             {
                 project.WriteNinja();
+                string destLogFile = Path.Combine(project.BuildDir, "dung.log");
+                FinalizeLog();
+                File.Copy(tempLogFile, destLogFile);
             }
-
-            FinalizeLog();
         }
 
         private static void FinalizeLog()
@@ -36,19 +40,22 @@ namespace Dung.CLI
             Log.CloseAndFlush();
         }
 
-        private static void SetupLogging()
+        private static string SetupLogging()
         {
+            string tempFile = Path.GetTempFileName();
             AssemblyName name = typeof(Program).Assembly.GetName();
             var log = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .Enrich.WithProperty("Assembly Name", name.Name)
                 .Enrich.WithProperty("Version", name.Version?.ToString() ?? "<unknown>")
-                .WriteTo.Console(LogEventLevel.Debug, "{Level:u1}: {Message:l}{NewLine}{Exception}")
+                .WriteTo.Console(LogEventLevel.Information, "{Level:u1}: {Message:l}{NewLine}{Exception}")
+                .WriteTo.File(tempFile)
                 .CreateLogger();
             log.Information($"Using {name.Name} v{name.Version?.ToString() ?? "<unknown>"}");
             Log.Logger = log;
             AppDomain.CurrentDomain.FirstChanceException += OnFirstChangeException;
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+            return tempFile;
         }
 
         private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)

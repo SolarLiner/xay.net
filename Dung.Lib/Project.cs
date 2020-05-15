@@ -38,7 +38,7 @@ namespace Dung.Lib
 
         protected YamlDocument? Configuration { get; }
         protected abstract IDependency Entrypoint { get; }
-        protected string BuildDir { get; }
+        public string BuildDir { get; }
 
         public string Name { get; }
 
