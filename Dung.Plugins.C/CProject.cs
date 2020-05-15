@@ -9,7 +9,7 @@ namespace Dung.Lib.Lang.C
 {
     public class CProject : Project
     {
-        public CProject(string root, string sourceDir, string buildDir) : base(root, buildDir)
+        public CProject(string root, string sourceDir, string buildDir) : base(root, sourceDir, buildDir)
         {
             List<CObject> objects = Directory.EnumerateFiles(sourceDir)
                 .Where(f => f.EndsWith(".c"))
@@ -111,7 +111,11 @@ namespace Dung.Lib.Lang.C
 
             if (!Variables.ContainsKey("cflags")) Variables.Add("cflags", "");
             if (!Variables.ContainsKey("clibs")) Variables.Add("clibs", "");
-            Log.Information($"Found sources: {string.Join("\n\t", objects.Select(o => o.SourceFile))}");
+            Log.Information("Found sources:");
+            foreach (string s in objects.Select(obj => obj.SourceFile))
+            {
+                Log.Information("\t{@string}", s);
+            }
             Entrypoint = new CExe(Name, BuildDir, objects);
         }
 

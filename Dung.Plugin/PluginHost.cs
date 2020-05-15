@@ -25,13 +25,13 @@ namespace Dung.Plugin
             return plugins;
         }
 
-        private static IEnumerable<string> GetPluginsInDirectory(string arg)
+        private static IEnumerable<string> GetPluginsInDirectory(string dir)
         {
-            List<string> files = Directory.GetFiles(arg, "*.dll", SearchOption.AllDirectories).ToList();
-            Log.Debug($"Searching in {arg}:");
+            List<string> files = Directory.GetFiles(dir, "*.dll", SearchOption.AllDirectories).ToList();
+            Log.Debug("Searching in {@string}:", dir);
             foreach (string file in files)
             {
-                Log.Debug($"\t{file}");
+                Log.Debug("\t{@string}", file);
             }
             return files;
         }
@@ -59,18 +59,15 @@ namespace Dung.Plugin
                 directories.AddRange(variables["DUNG_CLI_PLUGIN_PATH"].Split(":"));
             }
 
-            Log.Debug("Searching in these directories:");
-            foreach (string directory in directories)
-            {
-                Log.Debug($"\t{directory}");
-            }
             return directories.Where(Directory.Exists);
         }
 
         private static Assembly LoadPlugin(string path)
         {
             var loadContext = new PluginLoadContext(path);
-            return loadContext.LoadFromAssemblyName(new AssemblyName(Path.GetFileNameWithoutExtension(path)));
+            var assemblyName = new AssemblyName(Path.GetFileNameWithoutExtension(path));
+            Log.Debug("Loading plugin {@string}", assemblyName.FullName);
+            return loadContext.LoadFromAssemblyName(assemblyName);
         }
     }
 }

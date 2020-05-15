@@ -10,10 +10,12 @@ namespace Dung.Lib
 {
     public abstract class Project : IDependency
     {
-        protected Project(string rootDir, string buildDir)
+        protected Project(string rootDir, string sourceDir, string buildDir)
         {
             BuildDir = buildDir;
-            Log.Information($"Project dir: {rootDir} - Build dir: {BuildDir}");
+            Log.Information("Project dir: {@string}", rootDir);
+            Log.Information("Source dir : {@string}", sourceDir);
+            Log.Information("Build dir  : {@string}", buildDir);
             if (!Directory.Exists(BuildDir)) Directory.CreateDirectory(BuildDir);
             string projectFile = Path.Join(rootDir, "project.yml");
             Variables = new Dictionary<string, string>();
@@ -57,6 +59,7 @@ namespace Dung.Lib
             using var stream = File.Create(ninjaFile);
             using var streamWriter = new StreamWriter(stream) {AutoFlush = true};
             WriteNinja(streamWriter);
+            Log.Information("Ninja file written at {@string}", ninjaFile);
         }
 
         public void WriteNinja(StreamWriter writer)
