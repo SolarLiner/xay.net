@@ -36,7 +36,9 @@ namespace Dung.Lib.Lang.C
             var proc = new Process {StartInfo = startinfo};
             proc.Start();
             proc.WaitForExit();
-            return (proc.ExitCode, proc.StandardOutput.ReadToEnd().Trim());
+            string stdout = proc.StandardOutput.ReadToEnd();
+            Log.Verbose($"`pkg-config {startinfo.Arguments}` command exited with code {{@int}} - stdout:\n{{@string}}", proc.ExitCode, stdout);
+            return (proc.ExitCode, stdout.Trim());
         }
 
         private static ProcessStartInfo FindPkgConfig()
@@ -52,8 +54,10 @@ namespace Dung.Lib.Lang.C
             };
             proc.Start();
             proc.WaitForExit();
+            string stdout = proc.StandardOutput.ReadToEnd();
+            Log.Verbose("`which` command exited with code {@int} - stdout:\n{@string}", proc.ExitCode, stdout);
             if (proc.ExitCode != 0) throw new FileNotFoundException("pkg-config has not been found");
-            return new ProcessStartInfo(proc.StandardOutput.ReadToEnd().Trim())
+            return new ProcessStartInfo(stdout.Trim())
             {
                 RedirectStandardOutput = true
             };

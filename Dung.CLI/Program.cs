@@ -31,6 +31,7 @@ namespace Dung.CLI
                 project.WriteNinja();
                 string destLogFile = Path.Combine(project.BuildDir, "dung.log");
                 FinalizeLog();
+                if(File.Exists(destLogFile)) File.Delete(destLogFile);
                 File.Copy(tempLogFile, destLogFile);
             }
         }
@@ -45,7 +46,7 @@ namespace Dung.CLI
             string tempFile = Path.GetTempFileName();
             AssemblyName name = typeof(Program).Assembly.GetName();
             var log = new LoggerConfiguration()
-                .MinimumLevel.Debug()
+                .MinimumLevel.Verbose()
                 .Enrich.WithProperty("Assembly Name", name.Name)
                 .Enrich.WithProperty("Version", name.Version?.ToString() ?? "<unknown>")
                 .WriteTo.Console(LogEventLevel.Information, "{Level:u1}: {Message:l}{NewLine}{Exception}")
