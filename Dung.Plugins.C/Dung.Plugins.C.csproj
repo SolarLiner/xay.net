@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Dung.Lib\Dung.Lib.csproj">
+          <Private>false</Private>
+          <ExcludeAssets>runtime</ExcludeAssets>
+      </ProjectReference>
+        <ProjectReference Include="..\Dung.Ninja\Dung.Ninja.csproj">
+            <Private>false</Private>
+            <ExcludeAssets>runtime</ExcludeAssets>
+        </ProjectReference>
+      <ProjectReference Include="..\Dung.Plugin\Dung.Plugin.csproj">
+          <Private>false</Private>
+          <ExcludeAssets>runtime</ExcludeAssets>
+      </ProjectReference>
+    </ItemGroup>
+
+</Project>
