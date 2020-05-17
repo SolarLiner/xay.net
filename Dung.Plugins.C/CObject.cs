@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Dung.Lib;
 using Dung.Ninja.Objects;
 
-namespace Dung.Lib.Lang.C
+namespace Dung.Plugins.C
 {
     public class CObject : IBuildable
     {

@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using Serilog;
 
-namespace Dung.Lib.Lang.C
+namespace Dung.Plugins.C
 {
     public class PkgConfig
     {

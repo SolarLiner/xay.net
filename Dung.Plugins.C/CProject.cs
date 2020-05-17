@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Dung.Lib;
 using Serilog;
 using YamlDotNet.RepresentationModel;
 
-namespace Dung.Lib.Lang.C
+namespace Dung.Plugins.C
 {
     public class CProject : Project
     {

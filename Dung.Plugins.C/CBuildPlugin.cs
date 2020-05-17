@@ -1,7 +1,6 @@
 using System.IO;
 using System.Linq;
 using Dung.Lib;
-using Dung.Lib.Lang.C;
 using Dung.Plugin;
 
 namespace Dung.Plugins.C

@@ -1,6 +1,6 @@
 using System;
 
-namespace Dung.Lib.Lang.C
+namespace Dung.Plugins.C
 {
     internal static class EnvironmentHelpers
     {
