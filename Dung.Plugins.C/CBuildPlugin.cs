@@ -6,7 +6,7 @@ using Dung.Plugin;
 
 namespace Dung.Plugins.C
 {
-    public class CBuildPlugin: IBuildPlugin
+    public class CBuildPlugin : IBuildPlugin
     {
         public string Name => "C build plugin";
         public string Version => typeof(CBuildPlugin).Assembly.GetName().Version?.ToString() ?? "<unknown>";

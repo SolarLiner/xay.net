@@ -8,8 +8,16 @@ using Serilog;
 
 namespace Dung.Plugin
 {
-    public static class PluginHost<TPlugin> where TPlugin: class, IPlugin
+    /// <summary>
+    ///     Plugin host for <see cref="IPlugin" /> instance and derived interfaces.
+    /// </summary>
+    /// <typeparam name="TPlugin">Derived plugin interface</typeparam>
+    public static class PluginHost<TPlugin> where TPlugin : class, IPlugin
     {
+        /// <summary>
+        ///     Load plugins across all plugin paths.
+        /// </summary>
+        /// <returns>Enumerable instance of all found plugins.</returns>
         public static IEnumerable<TPlugin> LoadPlugins()
         {
             List<TPlugin> plugins = GetPluginDirectories()
@@ -29,10 +37,7 @@ namespace Dung.Plugin
         {
             List<string> files = Directory.GetFiles(dir, "*.dll", SearchOption.AllDirectories).ToList();
             Log.Debug("Searching in {@string}:", dir);
-            foreach (string file in files)
-            {
-                Log.Debug("\t{@string}", file);
-            }
+            foreach (string file in files) Log.Debug("\t{@string}", file);
             return files;
         }
 
@@ -44,20 +49,15 @@ namespace Dung.Plugin
                 .Where(envVar => envVar.Value != null)
                 .ToDictionary(environmentVariable => environmentVariable.Key.ToString()!,
                     environmentVariable => environmentVariable.Value!.ToString()!);
-            if(variables.ContainsKey("XDG_DATA_HOME"))
-            {
+            if (variables.ContainsKey("XDG_DATA_HOME"))
                 directories.Add(Path.Join(variables["XDG_DATA_HOME"], "dung", "plugins"));
-            }
 
             if (variables.ContainsKey("XDG_DATA_DIRS"))
-            {
-                directories.AddRange(variables["XDG_DATA_DIRS"].Split(":").Select(path => Path.Join(path, "dung", "plugins")));
-            }
+                directories.AddRange(variables["XDG_DATA_DIRS"].Split(":")
+                    .Select(path => Path.Join(path, "dung", "plugins")));
 
             if (variables.ContainsKey("DUNG_CLI_PLUGIN_PATH"))
-            {
                 directories.AddRange(variables["DUNG_CLI_PLUGIN_PATH"].Split(":"));
-            }
 
             return directories.Where(Directory.Exists);
         }

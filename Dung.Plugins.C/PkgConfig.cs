@@ -37,7 +37,8 @@ namespace Dung.Lib.Lang.C
             proc.Start();
             proc.WaitForExit();
             string stdout = proc.StandardOutput.ReadToEnd();
-            Log.Verbose($"`pkg-config {startinfo.Arguments}` command exited with code {{@int}} - stdout:\n{{@string}}", proc.ExitCode, stdout);
+            Log.Verbose($"`pkg-config {startinfo.Arguments}` command exited with code {{@int}} - stdout:\n{{@string}}",
+                proc.ExitCode, stdout);
             return (proc.ExitCode, stdout.Trim());
         }
 

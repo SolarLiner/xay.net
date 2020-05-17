@@ -1,14 +1,20 @@
 using System;
 using System.Reflection;
 using System.Runtime.Loader;
-using YamlDotNet.Serialization.EventEmitters;
 
 namespace Dung.Plugin
 {
+    /// <summary>
+    ///     Load context for dựng plugins that allows conflicting dependencies.
+    /// </summary>
     public class PluginLoadContext : AssemblyLoadContext
     {
-        private AssemblyDependencyResolver _resolver;
+        private readonly AssemblyDependencyResolver _resolver;
 
+        /// <summary>
+        ///     Instantiate a new <see cref="PluginLoadContext" />.
+        /// </summary>
+        /// <param name="pluginPath">Path to the plugin.</param>
         public PluginLoadContext(string pluginPath)
         {
             _resolver = new AssemblyDependencyResolver(pluginPath);

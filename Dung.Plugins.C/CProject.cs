@@ -112,10 +112,7 @@ namespace Dung.Lib.Lang.C
             if (!Variables.ContainsKey("cflags")) Variables.Add("cflags", "");
             if (!Variables.ContainsKey("clibs")) Variables.Add("clibs", "");
             Log.Information("Found sources:");
-            foreach (string s in objects.Select(obj => obj.SourceFile))
-            {
-                Log.Information("\t{@string}", s);
-            }
+            foreach (string s in objects.Select(obj => obj.SourceFile)) Log.Information("\t{@string}", s);
             Entrypoint = new CExe(Name, BuildDir, objects);
         }
 

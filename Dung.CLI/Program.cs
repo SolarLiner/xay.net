@@ -31,7 +31,7 @@ namespace Dung.CLI
                 project.WriteNinja();
                 string destLogFile = Path.Combine(project.BuildDir, "dung.log");
                 FinalizeLog();
-                if(File.Exists(destLogFile)) File.Delete(destLogFile);
+                if (File.Exists(destLogFile)) File.Delete(destLogFile);
                 File.Copy(tempLogFile, destLogFile);
             }
         }
@@ -63,12 +63,12 @@ namespace Dung.CLI
         {
             if (e.ExceptionObject is Exception ex)
             {
-                if(e.IsTerminating) Log.Fatal(ex, "Fatal: Unknown exception, aborting");
+                if (e.IsTerminating) Log.Fatal(ex, "Fatal: Unknown exception, aborting");
                 else Log.Error("Unknown exception");
             }
             else
             {
-                if(e.IsTerminating) Log.Fatal("Fatal: Unknown exception: {@string}", e.ExceptionObject.ToString());
+                if (e.IsTerminating) Log.Fatal("Fatal: Unknown exception: {@string}", e.ExceptionObject.ToString());
                 else Log.Error("Unknown exception: {@string}", e.ExceptionObject.ToString());
             }
         }

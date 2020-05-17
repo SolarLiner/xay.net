@@ -8,8 +8,27 @@ using YamlDotNet.RepresentationModel;
 
 namespace Dung.Lib
 {
+    /// <summary>
+    ///     A project represents a final artifact the project builds, and is intended for the user to use (i.e. executables).
+    /// </summary>
     public abstract class Project : IDependency
     {
+        /// <summary>
+        ///     Create a new Project instance.
+        /// </summary>
+        /// <param name="rootDir">
+        ///     Root directory of the project. Optionally contains a configuration file `project.yml`.
+        /// </param>
+        /// <param name="sourceDir">
+        ///     Directory containing all sources of the project. By convention, recursively all
+        ///     matching files in this folder are source files, unless explicitly excluded in the configuration, or
+        ///     explicitly included.
+        ///     By default, this is `[root]/src`.
+        /// </param>
+        /// <param name="buildDir">
+        ///     Build directory of the project. By default, this is `[root]/build` unless
+        ///     the project is used as dependency of another, in which case it is `[root project]/build/[dependency path]`.
+        /// </param>
         protected Project(string rootDir, string sourceDir, string buildDir)
         {
             BuildDir = buildDir;
@@ -34,25 +53,47 @@ namespace Dung.Lib
             Name = node.Children[nodeName].ToString();
         }
 
+        /// <summary>
+        ///     Dictionary of top-level variables in the resulting `build.ninja` file, to be used by rules.
+        /// </summary>
         public Dictionary<string, string> Variables { get; set; }
 
+        /// <summary>
+        ///     Configuration object, parsed as a tree of <see cref="YamlDotNet" /> parser nodes. This configuration file
+        ///     is intentionally free-form to allow plugins to use this file for their configuration.
+        /// </summary>
         protected YamlDocument? Configuration { get; }
+
+        /// <summary>
+        ///     The entry point is the root dependency object that will be built, and referenced if other projects depend on
+        ///     this.
+        /// </summary>
         protected abstract IDependency Entrypoint { get; }
+
+        /// <summary>
+        ///     Path to the build directory.
+        /// </summary>
         public string BuildDir { get; }
 
+        /// <inheritdoc />
         public string Name { get; }
 
 
+        /// <inheritdoc />
         public IEnumerable<IDependency>? Dependencies => new[]
         {
             Entrypoint
         };
 
+        /// <inheritdoc />
         public IEnumerable<IDependency> FlattenDependencies()
         {
             return Dependencies.Concat(Dependencies.SelectMany(d => d.FlattenDependencies()));
         }
 
+        /// <summary>
+        ///     Writes the project build configuration into `[build dir]/build.ninja`.
+        /// </summary>
         public void WriteNinja()
         {
             var ninjaFile = Path.Join(BuildDir, "build.ninja");
@@ -62,6 +103,10 @@ namespace Dung.Lib
             Log.Information("Ninja file written at {@string}", ninjaFile);
         }
 
+        /// <summary>
+        ///     Writes the project build configuration into the given <see cref="StreamWriter" />.
+        /// </summary>
+        /// <param name="writer">Writer stream on which the build configuration will be built.</param>
         public void WriteNinja(StreamWriter writer)
         {
             List<IBuildable> buildables = FlattenDependencies().OfType<IBuildable>().ToList();
