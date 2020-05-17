@@ -1,1 +1,14 @@
 site_name: dựng
+theme:
+  name: material
+  palette:
+    primary: purple
+    accent: deep orange
+  font:
+    text: Ubuntu
+    code: Ubuntu Mono
+plugins:
+  - search
+markdown_extensions:
+  - admonition
+  - codehilite
