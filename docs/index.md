@@ -1,17 +1,12 @@
-# Welcome to MkDocs
+# Welcome to dựng
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+dựng is an easy to use build system that relies on convention over configuration to generate build files.
+It works with a plugin system that makes dựng easily extensible.
 
-## Commands
+## Non-goals
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
-
-## Project layout
-
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+dựng does not pretend to be a one-size-fits-all solution. Large projects will have convoluted build systems
+and may not be able to fit within the conventions described below. However the author of this project believes
+that many projects not only can fit the conventions, but will benefit from it also.  
+What makes dựng powerful and easy to use is also its Achille's heel: it's relative lack of configurability from
+its rigid conventions.

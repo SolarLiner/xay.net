@@ -5,10 +5,20 @@ theme:
     primary: purple
     accent: deep orange
   font:
-    text: Ubuntu
-    code: Ubuntu Mono
+    text: Noto
+    code: Roboto Mono
 plugins:
   - search
 markdown_extensions:
   - admonition
   - codehilite
+nav:
+  - Home: index.md
+  - Getting started: getting-started.md
+  - CLI Usage: cli.md
+  - Conventions: conventions.md
+  - Configuration: configuration.md
+  - Plugins: plugins.md
+  - API Reference:
+      - Library reference: api/Dung.Lib.md
+      - Plugin reference: api/Dung.Plugin.md

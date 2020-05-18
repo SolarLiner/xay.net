@@ -449,3 +449,5 @@ fabric.properties
 
 # Cake tools
 /tools/
+/docs/api/
+/site/
