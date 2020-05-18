@@ -1,6 +1,5 @@
 language: csharp
 solution-name: dung.sln
-mono: none
 dotnet: 3.1.202
 
 env: TARGET=zip
