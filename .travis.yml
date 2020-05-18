@@ -3,11 +3,20 @@ solution-name: dung.sln
 mono: none
 dotnet: 3.1.202
 
+env: TARGET=zip
+
 os:
   - linux
   - windows
   - osx
 
+matrix:
+  include:
+    - os: linux
+      env: TARGET=docs
+
+
 install: skip
 script:
-  - ./build.sh --target=zip
+  - ./build.sh --target=$TARGET
+  - if [ $TARGET == "docs" ];

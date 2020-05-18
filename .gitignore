@@ -455,6 +455,7 @@ fabric.properties
 
 # Generated documentation
 /site/
+/docs/changelog.md
 
 # dotnet publish
 /publish
