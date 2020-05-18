@@ -14,6 +14,7 @@ markdown_extensions:
   - codehilite
 nav:
   - Home: index.md
+  - Changelog: changelog.md
   - Getting started: getting-started.md
   - CLI Usage: cli.md
   - Conventions: conventions.md

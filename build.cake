@@ -15,10 +15,13 @@ var apiDocsDir = docsDir + Directory("api");
 
 var cleantask = Task("Clean")
     .Does(() => {
+        if(DirectoryExists(publishDir)) DeleteDirectory(publishDir, recursive: true);
+        if(DirectoryExists("./site")) DeleteDirectory("./site", recursive: true);
         DotNetCoreClean(slnFile);
     });
 
 var versiontask = Task("Version")
+    .ContinueOnError()
     .Does(() => {
         using (var process = StartAndReturnProcess("git", new ProcessSettings {
             Arguments = "describe --tags",
@@ -55,8 +58,20 @@ var apidocstask = Task("DocsApi")
         if(!IsDryRun()) CopyFile(file, dest);
     }));
 
+var changelogTask = Task("Changelog")
+    .IsDependentOn(Task("CreateChangelog")
+        .WithCriteria(() => StartProcess("git", new ProcessSettings {
+            Arguments = "describe --exact-match --tags"
+        }) == 0)
+        .Does(() => StartProcess("standard-changelog")))
+    .ContinueOnError()
+    .Does(() => {
+        CopyFile(File("./CHANGELOG.md"), docsDir + File("changelog.md"));
+    });
+
 var docstask = Task("Docs")
     .IsDependentOn(apidocstask)
+    .IsDependentOn(changelogTask)
     .Does(() => MkDocsBuild());
 
 var publishPluginsTask = Task("PublishPlugins")
@@ -87,7 +102,10 @@ var shelltask = Task("ShellWrapper")
     .IsDependeeOf("Publish")
     .Does(() => Information("Stub for shell wrapper"));
 
-Task("DocsServe").IsDependentOn(apidocstask).Does(() => MkDocsServe());
+Task("DocsServe")
+    .IsDependentOn(apidocstask)
+    .IsDependentOn(changelogTask)
+    .Does(() => MkDocsServe());
 
 Task("Rebuild")
     .IsDependentOn(cleantask)
