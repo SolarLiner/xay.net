@@ -1,0 +1,13 @@
+language: csharp
+solution-name: dung.sln
+mono: none
+dotnet: 3.1.202
+
+os:
+  - linux
+  - windows
+  - osx
+
+install: skip
+script:
+  - ./build.sh --target=zip

@@ -449,5 +449,13 @@ fabric.properties
 
 # Cake tools
 /tools/
+
+# Generated API docs
 /docs/api/
+
+# Generated documentation
 /site/
+
+# dotnet publish
+/publish
+*.zip
