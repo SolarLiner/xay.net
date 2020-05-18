@@ -19,4 +19,3 @@ matrix:
 install: skip
 script:
   - ./build.sh --target=$TARGET
-  - if [ $TARGET == "docs" ];
