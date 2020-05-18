@@ -1,17 +1,32 @@
 #addin nuget:?package=Cake.MkDocs&version=2.1.1
+
+using System.Linq;
 using Path = Cake.Core.IO.Path;
 
 var target = Argument("Target", "Build");
 var slnFile = File("./dung.sln");
+var version = "unreleased";
 
 var docsDir = Directory("./docs");
 var apiDocsDir = docsDir + Directory("api");
 
 Task("Clean")
-    .Does(() => DotNetCoreClean(slnFile));
+    .Does(() => {
+        DeleteFile(File("./SolutionInfo.cs"));
+        DotNetCoreClean(slnFile);
+    });
 
-var versiontask = Task("UpdateAssemblyInfo")
-    .Does(() => Information("Stub about version tracking"));
+var versiontask = Task("Version")
+    .Does(() => {
+        using (var process = StartAndReturnProcess("git", new ProcessSettings {
+            Arguments = "describe --tags",
+            RedirectStandardOutput = true
+        })) {
+            process.WaitForExit();
+            version = process.GetStandardOutput().First();
+            Information($"Git version: {version}");
+        }
+    });
 
 var restoretask = Task("Restore")
     .Does(() => DotNetCoreRestore());
@@ -38,5 +53,7 @@ var docstask = Task("Docs")
     .Does(() => MkDocsBuild());
 
 Task("DocsServe").IsDependentOn(apidocstask).Does(() => MkDocsServe());
+
+Task("Rebuild").IsDependentOn("Clean").IsDependentOn(buildtask);
 
 RunTarget(target);
