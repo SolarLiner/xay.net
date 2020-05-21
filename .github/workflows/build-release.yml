@@ -2,7 +2,10 @@ name: Build release artifacts
 
 on:
   release:
-    types: [created, edited]
+    types:
+      - created
+      - published
+      - released
 
 jobs:
   build:
@@ -23,12 +26,12 @@ jobs:
       if: startsWith(matrix.os, 'windows')
       run: |
         ./build.ps1 -target Zip
-        cp *.zip $env:FILENAME.zip
+        cp *.zip $env:FILENAME
     - name: Build (unix)
       if: ${{ !startsWith(matrix.os, 'windows') }}
       run: |
         ./build.sh --target=Zip
-        cp *.zip $FILENAME.zip
+        cp *.zip $FILENAME
     - name: Get deploy url
       id: release
       uses: bruceadams/get-release@v1.2.0
