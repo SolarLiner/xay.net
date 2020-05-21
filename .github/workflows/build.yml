@@ -30,6 +30,17 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         path: '*.zip'
+  test:
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+        version: [3.1.104, 3.1.202, 3.1.300]
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: ${{ matrix.version }}
+    - run: dotnet test
   create-release:
     runs-on: ubuntu-latest
     env:
