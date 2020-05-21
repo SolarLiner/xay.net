@@ -1,11 +1,15 @@
 #addin nuget:?package=Cake.MkDocs&version=2.1.1
 #addin nuget:?package=SharpZipLib
 #addin nuget:?package=Cake.Compression
+#addin nuget:?package=Cake.FileHelpers
 using System.Linq;
 using Path = Cake.Core.IO.Path;
 
 var name = "dựng";
+var nameAscii = "dung";
 var target = Argument("Target", "Build");
+var _p = Argument("Prefix", "/usr");
+var prefix = Directory(_p.StartsWith("/") ? _p.Substring(1) : _p);
 var slnFile = File("./dung.sln");
 var version = "unreleased";
 var publishDir = Directory("./publish");
@@ -78,7 +82,7 @@ var publishPluginsTask = Task("PublishPlugins")
     .IsDependentOn(buildtask)
     .DoesForEach(GetFiles("Dung.Plugins.*/*.csproj"), proj => DotNetCorePublish(proj.FullPath, new DotNetCorePublishSettings {
         Configuration = "Release",
-        OutputDirectory = publishDir + Directory("plugins"),
+        OutputDirectory = IsRunningOnUnix() ? publishDir + prefix + Directory($"share/{nameAscii}/plugins") : publishDir + Directory("plugins"),
         NoBuild = true,
         NoRestore = true,
     }));
@@ -90,17 +94,34 @@ var publishtask = Task("Publish")
     .IsDependentOn(buildtask)
     .IsDependentOn(publishPluginsTask)
     .Does(() => {
-        DotNetCorePublish("Dung.CLI/Dung.CLI.csproj", new DotNetCorePublishSettings {
-            Configuration = "Release",
-            OutputDirectory = publishDir,
-            NoBuild = true,
-            NoRestore = true,
-        });
+        if(IsRunningOnUnix()) {
+            var publishPrefix = publishDir + prefix;
+            var prefixShare = prefix + Directory($"share/{nameAscii}");
+            var publishShare = publishDir + prefixShare;
+            var publishBin = publishPrefix + Directory("bin");
+            var binWrapperFile = publishBin + File(nameAscii);
+            DotNetCorePublish("Dung.CLI/Dung.CLI.csproj", new DotNetCorePublishSettings {
+                Configuration = "Release",
+                OutputDirectory = publishShare,
+                NoBuild = true,
+                NoRestore = true,
+            });
+            EnsureDirectoryExists(publishDir + prefix + Directory("bin"));
+            FileWriteLines(binWrapperFile, new string[] {
+                "#!/usr/bin/env bash",
+                $"cd /{prefixShare}",
+                $"exec ./Dung.CLI $@"
+            });
+            StartProcess("chmod", new ProcessSettings { Arguments = $"+x {binWrapperFile}"});
+        } else {
+            DotNetCorePublish("Dung.CLI/Dung.CLI.csproj", new DotNetCorePublishSettings {
+                Configuration = "Release",
+                OutputDirectory = publishDir,
+                NoBuild = true,
+                NoRestore = true
+            });
+        }
     });
-
-var shelltask = Task("ShellWrapper")
-    .IsDependeeOf("Publish")
-    .Does(() => Information("Stub for shell wrapper"));
 
 Task("DocsServe")
     .IsDependentOn(apidocstask)
