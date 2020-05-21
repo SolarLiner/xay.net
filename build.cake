@@ -136,6 +136,10 @@ Task("Zip")
     .IsDependentOn(Task("ZipClean")
         .DoesForEach(GetFiles("*.zip"), file => DeleteFile(file)))
     .IsDependentOn(publishtask)
-    .Does(() => ZipCompress(publishDir, $"{name}-{version}.zip"));
+    .Does(() => {
+        var suffix = IsRunningOnUnix() ? "unix" : "win";
+        var filename = File($"{name}-{version}-{suffix}.zip");
+        ZipCompress(publishDir, filename);
+    });
 
 RunTarget(target);
