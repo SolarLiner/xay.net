@@ -10,13 +10,6 @@
 
 * add library generation option for C projects ([51cde63](https://github.com/SolarLiner/dung/commit/51cde63c5465c5f879ff7b4814bc9d764ef4ba91))
 
-#  (2020-05-18)
-
-
-
-#  (2020-05-18)
-
-
 
 ## [0.0.1-alpha](https://github.com/SolarLiner/dung/compare/72b2d4aafd708d35724f2fa65c634ed5297eac9c...0.0.1-alpha) (2020-05-18)
 
