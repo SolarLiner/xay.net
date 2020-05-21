@@ -19,12 +19,12 @@ jobs:
       with:
         dotnet-version: 3.1.300
     - name: Build (windows)
+      if: startsWith(runner.os, 'windows')
       run: |
         ./build.ps1 -target Zip
         cp *.zip $env:FILENAME.zip
-      if: startsWith(runner.os, 'windows')
     - name: Build (unix)
-      if: !startsWith(runner.os, 'windows')
+      if: ${{ !startsWith(runner.os, 'windows') }}
       run: |
         ./build.sh --target=Zip
         cp *.zip $FILENAME.zip
