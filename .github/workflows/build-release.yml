@@ -1,0 +1,42 @@
+name: Build release artifacts
+
+on:
+  release: [created, updated]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    env:
+      FILENAME: dung-${{ runner.os }}-${{ github.head_ref }}.zip
+      GITHUB_TOKEN: ${{ github.token }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.300
+    - name: Build (windows)
+      run: |
+        ./build.ps1 -target Zip
+        cp *.zip $env:FILENAME.zip
+      if: startsWith(runner.os, 'windows')
+    - name: Build (unix)
+      if: !startsWith(runner.os, 'windows')
+      run: |
+        ./build.sh --target=Zip
+        cp *.zip $FILENAME.zip
+    - name: Get deploy url
+      id: release
+      uses: bruceadams/get-release@v1.2.0
+    - name: Upload build
+      uses: actions/upload-release-asset@v1.0.2
+      with:
+        upload_url: ${{ steps.release.outputs.upload_url }}
+        asset_path: $FILENAME
+        asset_name: $FILENAME
+        asset_content_type: application/zip
+
+      
