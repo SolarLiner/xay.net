@@ -1,0 +1,25 @@
+name: .NET Core
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.202
+    - name: Setup Node.js
+      uses: actions/setup-node@v1.4.2
+    - name: Install standard-changelog
+      run: npm i -g standard-changelog
+    - name: Build documentation
+      run: ./build.sh --target=Docs
+    - name: GitHub Pages
+      uses: crazy-max/ghaction-github-pages@v2.0.0
+      with:
+        build_dir: site
