@@ -1,7 +1,8 @@
 name: Build release artifacts
 
 on:
-  release: [created, updated]
+  release:
+    types: [created, edited]
 
 jobs:
   build:
