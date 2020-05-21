@@ -3,7 +3,7 @@ name: Documentation
 on: [push]
 
 jobs:
-  build:
+  docs:
 
     runs-on: ubuntu-latest
 
@@ -20,7 +20,7 @@ jobs:
     - name: Install standard-changelog
       run: npm i -g standard-changelog
     - name: Install mkdocs
-      run: pip install mkdocs
+      run: pip install mkdocs mkdocs-material
     - name: Build documentation
       run: ./build.sh --target=Docs
     - name: GitHub Pages
