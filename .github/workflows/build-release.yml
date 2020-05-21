@@ -39,8 +39,8 @@ jobs:
       uses: actions/upload-release-asset@v1.0.2
       with:
         upload_url: ${{ steps.release.outputs.upload_url }}
-        asset_path: $FILENAME
-        asset_name: $FILENAME
+        asset_path: ${{ env.FILENAME }}
+        asset_name: ${{ env.FILENAME }}
         asset_content_type: application/zip
 
       
