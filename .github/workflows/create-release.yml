@@ -1,0 +1,14 @@
+name: Create Release
+
+on:
+  push:
+    tags-ignore: []
+
+jobs:
+  publish:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Create a Release
+      uses: actions/create-release@v1
