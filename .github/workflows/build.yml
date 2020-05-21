@@ -16,10 +16,10 @@ jobs:
       with:
         dotnet-version: 3.1.202
     - name: Package build (ubuntu)
-      if: startsWith(matrix.os, "ubuntu")
+      if: startsWith(matrix.os, 'ubuntu')
       run: ./build.sh --target=Zip
     - name: Package build (windows)
-      if: startsWith(matrix.os, "windows")
+      if: startsWith(matrix.os, 'windows')
       run: ./build.ps1 -target Zip
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2
