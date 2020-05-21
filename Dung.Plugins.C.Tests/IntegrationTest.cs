@@ -20,6 +20,8 @@ namespace Dung.Plugins.C.Tests
     {
         public string Path { get; }
 
+        public string CurrentPlatform => Environment.OSVersion.Platform == PlatformID.Unix ? "unix" : "windows";
+
         public IntegrationTest(string path)
         {
             Path = System.IO.Path.GetFullPath(path);
@@ -34,12 +36,11 @@ namespace Dung.Plugins.C.Tests
             var stream = new StreamWriter(new MemoryStream());
             project.WriteNinja(stream);
 
-            FileTreeSnapshot().ShouldMatchChildSnapshot($"path={Path};tree");
+            FileTreeSnapshot().ShouldMatchChildSnapshot($"path={Path};platform={CurrentPlatform};tree");
             stream.Flush();
             var memstream = (MemoryStream) stream.BaseStream;
             memstream.GetBuffer()
-                .ShouldMatchChildSnapshot($"path={Path};ninja");
-
+                .ShouldMatchChildSnapshot($"path={Path};platform={CurrentPlatform};ninja");
         }
 
         public IEnumerable<string> FileTreeSnapshot() =>
