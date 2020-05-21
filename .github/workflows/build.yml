@@ -29,3 +29,27 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         path: '*.zip'
+  create-release:
+    if: contains(github.ref, 'tag')
+    needs: [build]
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ github.token }}
+    steps:
+      - name: Download build
+        uses: actions/download-artifact@v2
+        with:
+          path: artifact.zip
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        with:
+          release_name: Release ${{ github.head_ref }}
+          draft: true
+      - name: Upload release
+        uses: actions/upload-release-asset@v1.0.2
+        with:
+          upload_url: ${{ steps.create_release.outputs.output_url }}
+          asset_path: artifact.zip
+          asset_name: Build artifacts
+          asset_content_type: application/zip
