@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Dung.Lib;
@@ -9,7 +10,7 @@ namespace Dung.Plugins.C
     {
         public CExe(string name, ArtifactLinkMode buildMode, IEnumerable<CObject> objects)
         {
-            Name = name;
+            Name = name + GetExtension();
             Objects = objects;
             BuildMode = buildMode;
         }
@@ -31,5 +32,7 @@ namespace Dung.Plugins.C
         };
 
         public string LinkArgs => BuildMode == ArtifactLinkMode.Static ? "-static " : "";
+
+        private static string GetExtension() => Environment.OSVersion.Platform == PlatformID.Unix ? "" : ".exe";
     }
 }
