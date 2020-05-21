@@ -15,8 +15,12 @@ jobs:
         dotnet-version: 3.1.202
     - name: Setup Node.js
       uses: actions/setup-node@v1.4.2
+    - name: Setup Python
+      uses: actions/setup-python@v2
     - name: Install standard-changelog
       run: npm i -g standard-changelog
+    - name: Install mkdocs
+      run: pip install mkdocs
     - name: Build documentation
       run: ./build.sh --target=Docs
     - name: GitHub Pages
