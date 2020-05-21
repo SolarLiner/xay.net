@@ -33,16 +33,11 @@ namespace Dung.Plugins.C.Tests
             var stream = new StreamWriter(new MemoryStream());
             project.WriteNinja(stream);
 
-            FileTreeSnapshot()
-                .ShouldMatchSnapshot(new SnapshotId("snapshots",
-                    nameof(IntegrationTest),
-                    Path));
+            FileTreeSnapshot().ShouldMatchChildSnapshot($"path={Path};tree");
+            stream.Flush();
             var memstream = (MemoryStream) stream.BaseStream;
             memstream.GetBuffer()
-                .ShouldMatchSnapshot(new SnapshotId("snapshots",
-                    nameof(IntegrationTest),
-                    System.IO.Path.Combine(Path,
-                        "build.ninja")));
+                .ShouldMatchChildSnapshot($"path={Path};ninja");
 
         }
 
