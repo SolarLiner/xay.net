@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dung.Plugin", "Dung.Plugin\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dung.Plugins.C", "Dung.Plugins.C\Dung.Plugins.C.csproj", "{B445F076-E9E3-4461-A24A-619CBDB3748C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dung.Plugins.C.Tests", "Dung.Plugins.C.Tests\Dung.Plugins.C.Tests.csproj", "{9ED04077-325C-4FCB-B88F-46556BAFFBD4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,5 +41,9 @@ Global
 		{B445F076-E9E3-4461-A24A-619CBDB3748C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B445F076-E9E3-4461-A24A-619CBDB3748C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B445F076-E9E3-4461-A24A-619CBDB3748C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9ED04077-325C-4FCB-B88F-46556BAFFBD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9ED04077-325C-4FCB-B88F-46556BAFFBD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9ED04077-325C-4FCB-B88F-46556BAFFBD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9ED04077-325C-4FCB-B88F-46556BAFFBD4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
