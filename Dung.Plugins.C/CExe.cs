@@ -7,15 +7,15 @@ namespace Dung.Plugins.C
 {
     public class CExe : IBuildable
     {
-        public CExe(string name, string buildDir, IEnumerable<CObject> objects)
+        public CExe(string name, ArtifactLinkMode buildMode, IEnumerable<CObject> objects)
         {
             Name = name;
-            BuildDir = buildDir;
             Objects = objects;
+            BuildMode = buildMode;
         }
 
-        public string BuildDir { get; }
         public IEnumerable<CObject> Objects { get; }
+        public ArtifactLinkMode BuildMode { get; }
         public string Name { get; }
         public IEnumerable<IDependency>? Dependencies => Objects;
 
@@ -26,8 +26,10 @@ namespace Dung.Plugins.C
 
         public Rule Rule => new Rule
         {
-            Name = "link", Command = $"{EnvironmentHelpers.GetCompiler()} $in $clibs -o $out",
+            Name = "clink_exe", Command = $"{EnvironmentHelpers.GetCompiler()} {LinkArgs}$in $clibs -o $out",
             Description = "Linking to $out"
         };
+
+        public string LinkArgs => BuildMode == ArtifactLinkMode.Static ? "-static " : "";
     }
 }

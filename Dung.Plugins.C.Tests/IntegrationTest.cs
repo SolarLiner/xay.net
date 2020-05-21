@@ -15,6 +15,7 @@ namespace Dung.Plugins.C.Tests
     [TestFixture("content/simple")]
     [TestFixture("content/multiple")]
     [TestFixture("content/reallife-small")]
+    [TestFixture("content/library")]
     public class IntegrationTest
     {
         public string Path { get; }

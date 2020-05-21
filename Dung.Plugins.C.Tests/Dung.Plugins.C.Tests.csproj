@@ -22,6 +22,13 @@
       <None Include="content\**">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="content\library\project.yml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ClCompile Include="content\library\src\lib.c" />
     </ItemGroup>
 
 </Project>

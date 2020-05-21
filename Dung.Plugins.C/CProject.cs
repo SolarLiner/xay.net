@@ -53,6 +53,9 @@ namespace Dung.Plugins.C
                 }
             }*/
 
+            var buildType = ArtifactType.Executable;
+            var buildMode = ArtifactLinkMode.Shared;
+
             if (Configuration?.RootNode is YamlMappingNode node)
             {
                 var nodeExclude = new YamlScalarNode("exclude");
@@ -77,12 +80,40 @@ namespace Dung.Plugins.C
                         objects = objects.Where(o => included.Contains(o.SourceFile)).ToList();
                     }
 
+                var nodeBuildType = new YamlScalarNode("type");
+                if (node.Children.ContainsKey(nodeBuildType))
+                    if (node.Children[nodeBuildType] is YamlScalarNode scalarNode)
+                    {
+                        buildType = scalarNode.Value switch
+                        {
+                            "library" => ArtifactType.Library,
+                            "executable" => ArtifactType.Executable,
+                            _ => throw new ConfiguationException(
+                                "Build type can only be either 'library' or 'executable'")
+                        };
+                    }
+
+                var nodeBuildMode = new YamlScalarNode("mode");
+                if (node.Children.ContainsKey(nodeBuildMode))
+                    if (node.Children[nodeBuildMode] is YamlScalarNode scalarNode)
+                    {
+                        buildMode = scalarNode.Value switch
+                        {
+                            "shared" => ArtifactLinkMode.Shared,
+                            "static" => ArtifactLinkMode.Static,
+                            _ => throw new ConfiguationException(
+                                "Build mode can only be either 'static' or 'shared'")
+                        };
+                    }
+
                 var nodeDependencies = new YamlScalarNode("dependencies");
                 if (node.Children.ContainsKey(nodeDependencies))
                     if (node.Children[nodeDependencies] is YamlSequenceNode seq)
                     {
                         var flags = new List<string>();
                         var libs = new List<string>();
+                        if(buildMode == ArtifactLinkMode.Shared && buildType == ArtifactType.Library)
+                            flags.Add("-fpic");
                         foreach (string dep in seq.OfType<YamlScalarNode>().Select(n => n.ToString()))
                             if (dep == "math" || dep == "m")
                             {
@@ -114,9 +145,22 @@ namespace Dung.Plugins.C
             if (!Variables.ContainsKey("clibs")) Variables.Add("clibs", "");
             Log.Information("Found sources:");
             foreach (string s in objects.Select(obj => obj.SourceFile)) Log.Information("\t{@string}", s);
-            Entrypoint = new CExe(Name, BuildDir, objects);
+            Entrypoint = buildType == ArtifactType.Executable
+                ? (IBuildable) new CExe(Name,
+                    buildMode,
+                    objects)
+                : new CLibrary(Name,
+                    buildMode,
+                    objects);
         }
 
         protected override IDependency Entrypoint { get; }
+    }
+
+    public class ConfiguationException : Exception
+    {
+        public ConfiguationException(string message) : base(message)
+        {
+        }
     }
 }
