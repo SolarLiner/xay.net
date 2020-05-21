@@ -34,7 +34,9 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
-        version: ['3.1.104', '3.1.202', '3.1.300']
+        version: [3.1.104, 3.1.202, 3.1.300]
+    runs-on: ${{ matrix.os }}
+    steps:
     - uses: actions/checkout@v2
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
