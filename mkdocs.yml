@@ -1,4 +1,5 @@
 site_name: dựng
+site_url: https://solarliner.github.io/dung
 theme:
   name: material
   palette:
