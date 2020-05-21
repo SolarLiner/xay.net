@@ -1,6 +1,6 @@
 name: CI
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   build:
@@ -16,10 +16,6 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: ${{ matrix.version }}
-    - name: Echo ref
-      run: |
-        echo ref ${{ github.ref }}
-        echo head ref ${{ github.head_ref }}
     - name: Package build (ubuntu)
       if: startsWith(matrix.os, 'ubuntu')
       run: ./build.sh --target=Zip
@@ -53,3 +49,7 @@ jobs:
         uses: actions/setup-node@v1.4.2
       - run: yarn
       - run: yarn semantic-release --ci
+      - name: Commit CHANGELOG.md
+        uses: EndBug/add-and-commit@v4
+        with:
+          add: CHANGELOG.md
