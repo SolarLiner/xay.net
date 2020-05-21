@@ -28,4 +28,4 @@ jobs:
       with:
         build_dir: site
       env: 
-        GITHUB_TOKEN: github.token
+        GITHUB_TOKEN: ${{ github.token }}
