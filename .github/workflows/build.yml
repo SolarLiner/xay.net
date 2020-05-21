@@ -15,8 +15,12 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.202
-    - name: Package build
+    - name: Package build (ubuntu)
+      if: startsWith(matrix.os, "ubuntu")
       run: ./build.sh --target=Zip
+    - name: Package build (windows)
+      if: startsWith(matrix.os, "windows")
+      run: ./build.ps1 -target Zip
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2
       with:
