@@ -1,3 +1,10 @@
+## [0.1.1](https://github.com/SolarLiner/xay/compare/0.1.0-alpha...0.1.1-alpha) (2020-05-22)
+
+
+### Bug Fixes
+
+* EMERGENCY NAMECHANGE >.< ([f1a46ba](https://github.com/SolarLiner/xay/commit/f1a46bac5bab395f9333a775eb90e35294bec99d))
+
 # [0.1.0](https://github.com/SolarLiner/xay/compare/0.0.2-alpha...0.1.0-alpha) (2020-05-21)
 
 
