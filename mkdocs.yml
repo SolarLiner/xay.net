@@ -22,5 +22,5 @@ nav:
   - Configuration: configuration.md
   - Plugins: plugins.md
   - API Reference:
-      - Library reference: api/Dung.Lib.md
-      - Plugin reference: api/Dung.Plugin.md
+      - Library reference: api/Xay.Lib.md
+      - Plugin reference: api/Xay.Plugin.md
