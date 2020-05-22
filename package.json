@@ -1,8 +1,8 @@
 {
-  "name": "dung",
+  "name": "xay",
   "version": "0.0.0-development",
   "main": "index.js",
-  "repository": "git@github.com:SolarLiner/dung.git",
+  "repository": "git@github.com:SolarLiner/xay.git",
   "author": "Nathan Graule <solarliner@gmail.com>",
   "license": "MIT",
   "scripts": {

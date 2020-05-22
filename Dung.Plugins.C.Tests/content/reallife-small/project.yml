@@ -1,4 +1,0 @@
-name: l2infos3
-dependencies:
-  - math
-  - cairo

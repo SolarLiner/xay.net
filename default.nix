@@ -1,7 +1,7 @@
 with import <nixpkgs> {};
 
 stdenv.mkDerivation {
-    name = "dung";
+    name = "xay";
     src = ./.;
     nativeBuildInputs = [ dotnet-sdk_3 ];
     buildPhase = ''

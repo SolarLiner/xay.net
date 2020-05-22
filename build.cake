@@ -5,12 +5,12 @@
 using System.Linq;
 using Path = Cake.Core.IO.Path;
 
-var name = "dựng";
-var nameAscii = "dung";
+var name = "xây";
+var nameAscii = "xay";
 var target = Argument("Target", "Build");
 var _p = Argument("Prefix", "/usr");
 var prefix = Directory(_p.StartsWith("/") ? _p.Substring(1) : _p);
-var slnFile = File("./dung.sln");
+var slnFile = File("./xay.sln");
 var version = "unreleased";
 var publishDir = Directory("./publish");
 
@@ -43,7 +43,7 @@ var restoretask = Task("Restore")
 var buildtask = Task("Build")
     .IsDependentOn(versiontask)
     .IsDependentOn(restoretask)
-    .Does(() => DotNetCoreBuild("dung.sln", new DotNetCoreBuildSettings {
+    .Does(() => DotNetCoreBuild("xay.sln", new DotNetCoreBuildSettings {
         Configuration = "Release",
         Runtime = EnvironmentVariable("RID"),
         NoIncremental = true,
