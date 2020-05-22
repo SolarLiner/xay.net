@@ -1,13 +1,13 @@
 # Conventions
 
-To make using dựng simple, the project sets up a series of convention that all projects must follow. In 
+To make using xây simple, the project sets up a series of convention that all projects must follow. In
 addition, plugins may enforce further language or framework-related conventions.
 
 ## Global conventions
 
 ### One project = one public artifact
 
-dựng's convention is to keep things simple. Therefore any project corresponds to one public artifact.
+xây's convention is to keep things simple. Therefore any project corresponds to one public artifact.
 This can be multiple files (for example, a TypeScript projects compiles to JavaScript along with source
 maps and a definition file), however a project does not generate multiple artifacts. 
 
@@ -24,7 +24,7 @@ files may be in subfolders, however source files outside that folder will not be
     available by the first stable release.
 
     
-dựng provides means to depend on other source code, provided they also are projects. This means you can easily
+xây provides means to depend on other source code, provided they also are projects. This means you can easily
 reuse source code in different projects.
 
 Source dependencies go in the `lib` folder at the root of the project, with every direct dependency as a child
@@ -45,4 +45,4 @@ directory structure will be as follows:
         - argparse/
           - src/       -> git submodule linking to https://github.com/cofyc/argparse.git
 
-This allows dựng projects to be immediately reusable in other projects.
+This allows xây projects to be immediately reusable in other projects.
